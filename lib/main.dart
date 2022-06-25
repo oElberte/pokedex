@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokedex/pages/favorites_page.dart';
 import 'package:pokedex/pages/home_page.dart';
+import 'package:pokedex/pages/pokemon_detail_page.dart';
+import 'package:pokedex/pages/settings_page.dart';
+import 'package:pokedex/utils/app_routes.dart';
 
 void main() {
   runApp(
@@ -13,8 +17,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.purple,
+        ),
+      ),
+      routes: {
+        AppRoutes.home: (ctx) => const HomePage(),
+        AppRoutes.favorites: (ctx) => const FavoritesPage(),
+        AppRoutes.settings: (ctx) => const SettingsPage(),
+        AppRoutes.pokemonDetails: (ctx) => const PokemonDetailsPage(),
+      },
     );
   }
 }

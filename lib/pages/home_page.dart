@@ -1,27 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/utils/state_manager.dart';
+import 'package:pokedex/pages/favorites_page.dart';
+import 'package:pokedex/pages/pokemons_page.dart';
+import 'package:pokedex/pages/settings_page.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
-    AsyncValue<List<Pokemon>> pokemons = ref.read(pokemonStateFuture);
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+  PageController pageController = PageController();
+
+  void onTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+      pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: pokemons.when(
-        data: (pokemons) => ListView.builder(
-          itemCount: 10,
-          itemBuilder: (ctx, i) {
-            return Image.network(pokemons[i].imageurl!);
-          },
-        ),
-        error: (error, stack) => Center(child: Text(error.toString())),
-        loading: () => const Center(child: CircularProgressIndicator()),
+      body: PageView(
+        controller: pageController,
+        children: const [
+          PokemonsPage(),
+          FavoritesPage(),
+          SettingsPage(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: "Favorites",
+            icon: Icon(Icons.favorite_outline),
+            activeIcon: Icon(Icons.favorite),
+          ),
+          BottomNavigationBarItem(
+            label: "Settings",
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+          ),
+        ],
+        currentIndex: selectedIndex,
+        onTap: onTapped,
       ),
     );
   }
