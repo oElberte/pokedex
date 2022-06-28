@@ -14,7 +14,9 @@ class PokemonsPage extends ConsumerWidget {
     AsyncValue<List<Pokemon>> pokemons = ref.watch(pokemonStateFuture);
 
     return Scaffold(
-      body: Pokemons(pokemons: pokemons),
+      body: Pokemons(
+        pokemons: pokemons,
+      ),
     );
   }
 }

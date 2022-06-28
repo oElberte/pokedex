@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/utils/app_routes.dart';
+import 'package:pokedex/pages/pokemon_detail_page.dart';
 
 class Pokemons extends ConsumerWidget {
   const Pokemons({
@@ -14,9 +14,14 @@ class Pokemons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
+      //".when" used to load all the Pokemons from the API and handle with loading and errors.
       child: pokemons.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(error.toString())),
+        loading: () => const Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+        error: (error, stack) => Center(
+          child: Text(error.toString()),
+        ),
         data: (pokemons) {
           return GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -29,11 +34,20 @@ class Pokemons extends ConsumerWidget {
             itemCount: pokemons.length,
             itemBuilder: (ctx, i) {
               return InkWell(
-                onTap: () => Navigator.of(context).pushNamed(
-                  AppRoutes.pokemonDetails,
-                ),
+                onTap: () {
+                  Navigator.push(
+                    ctx,
+                    MaterialPageRoute(
+                      builder: (ctx) => PokemonDetailsPage(
+                        pokemon: pokemons[i],
+                        list: pokemons,
+                      ),
+                    ),
+                  );
+                },
                 child: Stack(
                   children: [
+                    //Container for each Pokemon
                     Container(
                       decoration: const BoxDecoration(
                         color: Colors.blueGrey,
@@ -42,12 +56,14 @@ class Pokemons extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    //Pokemon image
                     Positioned(
                       bottom: 5,
                       left: 5,
                       width: 80,
                       child: Image.network(pokemons[i].imageurl!),
                     ),
+                    //Pokemon name
                     Positioned(
                       top: 5,
                       left: 5,
@@ -59,17 +75,19 @@ class Pokemons extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    //Pokemon id
                     Positioned(
                       bottom: 5,
                       right: 10,
                       child: Text(
-                        pokemons[i].id!,
+                        pokemons[i].id!.toString(),
                         style: const TextStyle(
                           color: Color.fromARGB(70, 255, 255, 255),
                           fontSize: 20,
                         ),
                       ),
                     ),
+                    //Pokemon types
                     Positioned(
                       top: 9,
                       right: 8,

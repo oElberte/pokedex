@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   PageController pageController = PageController();
 
+  //Change the page and animate
   void onTapped(int index) {
     setState(() {
       selectedIndex = index;
