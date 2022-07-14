@@ -34,24 +34,24 @@ class Pokemons extends ConsumerWidget {
             itemCount: pokemons.length,
             itemBuilder: (ctx, i) {
               return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    ctx,
-                    MaterialPageRoute(
-                      builder: (ctx) => PokemonDetailsPage(
-                        pokemon: pokemons[i],
-                        list: pokemons,
-                      ),
+                onTap: () => Navigator.push(
+                  ctx,
+                  MaterialPageRoute(
+                    builder: (ctx) => PokemonDetailsPage(
+                      pokemon: pokemons[i],
+                      list: pokemons,
                     ),
-                  );
-                },
+                  ),
+                ),
                 child: Stack(
                   children: [
                     //Container for each Pokemon
                     Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.blueGrey,
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: Pokemon.color(
+                          type: pokemons[i].typeofpokemon![0],
+                        ),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         ),
                       ),
