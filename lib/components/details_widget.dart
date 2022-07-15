@@ -2,103 +2,179 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/utils/state_manager.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
-// ignore: must_be_immutable
-class DetailsWidget extends StatefulWidget {
-  DetailsWidget({
+typedef IntCallback = void Function(int id);
+
+class DetailsWidget extends StatelessWidget {
+  const DetailsWidget({
     Key? key,
     required this.list,
     required this.pokemon,
     required this.index,
+    required this.callback,
   }) : super(key: key);
 
   final List<Pokemon> list;
   final Pokemon pokemon;
-  int index;
+  final int index;
+  final IntCallback callback;
 
-  @override
-  State<DetailsWidget> createState() => _DetailsWidgetState();
-}
-
-class _DetailsWidgetState extends State<DetailsWidget> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     PageController controller = PageController(
-      initialPage: widget.index,
+      initialPage: index,
       viewportFraction: 0.65,
       keepPage: true,
     );
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(height: height * 0.5),
-          Stack(
-            children: [
-              Container(
-                height: height * 0.5,
-                color: Pokemon.color(
-                  type: widget.list[widget.index].typeofpokemon![0],
-                ),
-                child: PageView(
-                  onPageChanged: (value) {
-                    setState(() {
-                      widget.index = value;
-                    });
-                  },
-                  controller: controller,
-                  children: widget.list
-                      .map(
-                        (e) => Image.network(e.imageurl!),
-                      )
-                      .toList(),
-                ),
-              ),
-              Consumer(
-                builder: (context, ref, child) {
-                  return Positioned(
-                    top: height * 0.02,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0),
-                          ),
-                        ),
-                        overlayColor: MaterialStateProperty.all(Colors.black12),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        ref.refresh(pokemonStateFuture);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 32,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              Positioned(
-                right: width * 0.05,
-                top: height * 0.026,
-                child: Text(
-                  "${widget.list[widget.index].name}\n${widget.list[widget.index].id}",
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+    return Stack(
+      children: [
+        //Background
+        Container(
+          decoration: BoxDecoration(
+            color: Pokemon.color(type: list[index].type![0]),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(60),
+              topRight: Radius.circular(60),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 3,
+                blurRadius: 8,
+                offset: const Offset(0, -5), //Changes the position of shadow
               ),
             ],
           ),
-        ],
-      ),
+          height: height * 0.5,
+          //Pokemon image
+          child: PageView(
+            onPageChanged: (value) => callback(value),
+            controller: controller,
+            children: list
+                .map(
+                  (e) => Stack(
+                    children: [
+                      Positioned.fill(
+                        bottom: 25,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SimpleShadow(
+                            offset: const Offset(4, 6),
+                            sigma: 7,
+                            child: Image.network(
+                              e.imageurl!,
+                              scale: 0.5,
+                              width: 250,
+                              height: 250,
+                              cacheWidth: 250,
+                              cacheHeight: 250,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        //Arrow back
+        Positioned.fill(
+          left: 15,
+          // right: 70,
+          top: 13,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Consumer(
+              builder: (context, ref, child) {
+                return TextButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      const CircleBorder(),
+                    ),
+                    overlayColor: MaterialStateProperty.all(Colors.black12),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    ref.refresh(pokemonStateFuture);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: 42,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        //Name and ID
+        Positioned.fill(
+          bottom: 15,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: const TextStyle(
+                  fontSize: 32,
+                  color: Colors.black,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '${list[index].name}\n',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: list[index].id,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        //Type of pokemon
+        Positioned(
+          top: 22,
+          right: 30,
+          child: Row(
+            children: list[index]
+                .type!
+                .map(
+                  (item) => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    margin: const EdgeInsets.only(left: 4),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black45),
+                      color: Pokemon.color(type: item),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Text(
+                      item,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 21,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ],
     );
   }
 }

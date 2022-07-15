@@ -4,26 +4,26 @@ class Pokemon {
   String? name;
   String? id;
   String? imageurl;
-  String? xdescription;
+  String? description;
   String? category;
-  List<String>? typeofpokemon;
+  List<String>? type;
 
   Pokemon({
     this.name,
     this.id,
     this.imageurl,
-    this.xdescription,
+    this.description,
     this.category,
-    this.typeofpokemon,
+    this.type,
   });
 
   Pokemon.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     id = json['id'];
     imageurl = json['imageurl'];
-    xdescription = json['xdescription'];
+    description = json['xdescription'];
     category = json['category'];
-    typeofpokemon = json['typeofpokemon'].cast<String>();
+    type = json['typeofpokemon'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -31,9 +31,9 @@ class Pokemon {
     data['name'] = name;
     data['id'] = id;
     data['imageurl'] = imageurl;
-    data['xdescription'] = xdescription;
+    data['xdescription'] = description;
     data['category'] = category;
-    data['typeofpokemon'] = typeofpokemon;
+    data['typeofpokemon'] = type;
     return data;
   }
 
@@ -54,7 +54,7 @@ class Pokemon {
       case 'Fighting':
         return Colors.orange;
       case 'Poison':
-        return Colors.purple;
+        return Colors.purpleAccent[100];
       case 'Ground':
         return Colors.orange[300];
       case 'Flying':
