@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
+part 'pokemon.g.dart';
+
+@HiveType(typeId: 0)
 class Pokemon {
+  @HiveField(0)
   String? name;
+  @HiveField(1)
   String? id;
+  @HiveField(2)
   String? imageurl;
+  @HiveField(3)
   String? description;
+  @HiveField(4)
   String? category;
+  @HiveField(5)
   List<String>? type;
 
   Pokemon({
@@ -54,7 +64,7 @@ class Pokemon {
       case 'Fighting':
         return Colors.orange;
       case 'Poison':
-        return Colors.purpleAccent[100];
+        return Colors.purple[400];
       case 'Ground':
         return Colors.orange[300];
       case 'Flying':

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/pages/favorites_page.dart';
 import 'package:pokedex/pages/home_page.dart';
 import 'package:pokedex/pages/settings_page.dart';
 import 'package:pokedex/utils/app_routes.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(PokemonAdapter());
   runApp(
     const ProviderScope(
       child: MyApp(),

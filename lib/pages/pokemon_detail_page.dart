@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/components/details_widget.dart';
 import 'package:pokedex/models/pokemon.dart';
 
-class PokemonDetailsPage extends StatefulWidget {
-  final Pokemon pokemon;
-  final List<Pokemon> list;
+typedef IntCallback = void Function(int id);
 
+class PokemonDetailsPage extends StatefulWidget {
   const PokemonDetailsPage({
     Key? key,
     required this.pokemon,
     required this.list,
   }) : super(key: key);
+
+  final Pokemon pokemon;
+  final List<Pokemon> list;
 
   @override
   State<PokemonDetailsPage> createState() => _PokemonDetailsPageState();
@@ -21,8 +23,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
   void initState() {
     pokemon = widget.pokemon;
     list = widget.list;
-    index = widget.list
-        .indexWhere((element) => element.name == widget.pokemon.name);
+    index = list.indexWhere((element) => element.name == widget.pokemon.name);
     super.initState();
   }
 
@@ -36,8 +37,8 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          //Pokemon description
           const SizedBox.shrink(),
+          //Pokemon description
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -63,15 +64,19 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
               ),
             ),
           ),
-          //Where the Pokemon image, name and ID are shown
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: DetailsWidget(
-              list: list,
-              index: index,
-              pokemon: pokemon,
-              callback: (val) => setState(() => index = val),
-            ),
+          Stack(
+            children: [
+              //Where the Pokemon image, name and ID are shown
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: DetailsWidget(
+                  list: list,
+                  index: index,
+                  pokemon: pokemon,
+                  callback: (val) => setState(() => index = val),
+                ),
+              ),
+            ],
           ),
         ],
       ),

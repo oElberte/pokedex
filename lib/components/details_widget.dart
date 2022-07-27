@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pokedex/components/favorite_button_widget.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/utils/state_manager.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -82,34 +84,35 @@ class DetailsWidget extends StatelessWidget {
                 .toList(),
           ),
         ),
+        //Favorite button
+        FavoriteButton(
+          list: list,
+          index: index,
+        ),
         //Arrow back
         Positioned.fill(
           left: 15,
-          // right: 70,
           top: 13,
           child: Align(
             alignment: Alignment.topLeft,
-            child: Consumer(
-              builder: (context, ref, child) {
-                return TextButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      const CircleBorder(),
-                    ),
-                    overlayColor: MaterialStateProperty.all(Colors.black12),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    ref.refresh(pokemonStateFuture);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 42,
-                  ),
-                );
-              },
-            ),
+            //Consumer here
+            child: Consumer(builder: (context, ref, child) {
+              return TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(const CircleBorder()),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(index);
+                  ref.refresh(pokemonStateFuture);
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 42,
+                ),
+              );
+            }),
           ),
         ),
         //Name and ID
