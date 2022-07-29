@@ -5,25 +5,36 @@ import 'package:pokedex/models/database/local_storage.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/pages/pokemon_detail_page.dart';
 import 'package:pokedex/utils/state_manager.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 typedef IntCallback = void Function(int id);
 
-class PokemonsPage extends ConsumerWidget {
+class PokemonsPage extends ConsumerStatefulWidget {
   const PokemonsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PokemonsPage> createState() => _PokemonsPageState();
+}
+
+class _PokemonsPageState extends ConsumerState<PokemonsPage> {
+  @override
+  Widget build(BuildContext context) {
     ref.refresh(openBox);
-
     final AsyncValue<List<Pokemon>> pokemons = ref.watch(pokemonStateFuture);
-
-    final controller = ScrollController(keepScrollOffset: false);
 
     final LocalStorage localStorage = LocalStorage();
 
-    Future<void> _navigateAndDisplaySelection(context, pokemons, index) async {
-      final int result = await Navigator.push(
-        context,
+    final controller = AutoScrollController(
+      viewportBoundaryGetter: () =>
+          Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.vertical,
+      suggestedRowHeight: 120,
+    );
+
+    Future<void> _navigateAndDisplaySelection(
+        BuildContext ctx, List<Pokemon> pokemons, int index) async {
+      await Navigator.push(
+        ctx,
         MaterialPageRoute(
           builder: (ctx) => PokemonDetailsPage(
             pokemon: pokemons[index],
@@ -31,10 +42,13 @@ class PokemonsPage extends ConsumerWidget {
           ),
         ),
       );
-      controller.animateTo(
-        (result * 57).toDouble(),
+
+      setState(() {});
+
+      await controller.scrollToIndex(
+        index,
+        preferPosition: AutoScrollPosition.begin,
         duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
       );
     }
 
@@ -60,13 +74,15 @@ class PokemonsPage extends ConsumerWidget {
               ),
               itemCount: pokemons.length,
               itemBuilder: (ctx, i) {
-                return InkWell(
-                  onTap: () => _navigateAndDisplaySelection(ctx, pokemons, i),
-                  child: PokemonGridItem(
-                    pokemons,
-                    i,
-                    localStorage,
-                    key: ValueKey(pokemons[i].id),
+                //AutoScrollTag used for when user backs from mainscreen it goes to index.
+                return AutoScrollTag(
+                  key: ValueKey(i),
+                  controller: controller,
+                  index: i,
+                  child: InkWell(
+                    onTap: () =>
+                        _navigateAndDisplaySelection(context, pokemons, i),
+                    child: PokemonGridItem(pokemons, i, localStorage),
                   ),
                 );
               },

@@ -1,6 +1,6 @@
 class AppRoutes {
   static const home = '/';
-  static const pokemonDetails = '/pokemon-details';
+  static const pokemons = '/pokemons';
   static const favorites = '/favorites';
   static const settings = '/settings';
 }

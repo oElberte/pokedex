@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pokedex/components/favorite_button_widget.dart';
 import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/utils/state_manager.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 typedef IntCallback = void Function(int id);
 
-class DetailsWidget extends StatelessWidget {
-  const DetailsWidget({
+class PokemonDetailsWidget extends StatelessWidget {
+  const PokemonDetailsWidget({
     Key? key,
     required this.list,
     required this.pokemon,
@@ -44,7 +42,7 @@ class DetailsWidget extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
+                color: Colors.black.withOpacity(0.2),
                 spreadRadius: 3,
                 blurRadius: 8,
                 offset: const Offset(0, -5), //Changes the position of shadow
@@ -104,7 +102,7 @@ class DetailsWidget extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(index);
-                  ref.refresh(pokemonStateFuture);
+                  // ref.refresh(pokemonStateFuture);
                 },
                 child: const Icon(
                   Icons.arrow_back,

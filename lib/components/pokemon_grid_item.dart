@@ -48,7 +48,7 @@ class _PokemonGridItemState extends State<PokemonGridItem> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
+                color: Colors.black.withOpacity(0.4),
                 blurRadius: 4,
                 offset: const Offset(3, 3),
               ),
@@ -74,48 +74,45 @@ class _PokemonGridItemState extends State<PokemonGridItem> {
         ),
         //Pokemon name and type
         Positioned.fill(
-          left: 5,
-          top: 5,
-          right: 8,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                pokemons[i].name!,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Column(
-                  children: pokemons[i]
-                      .type!
-                      .map(
-                        (item) => Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          margin: const EdgeInsets.only(top: 1),
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(50, 255, 255, 255),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          child: Text(
-                            item,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+          left: pokemons[i].name!.length >= 10 ? 7 : 5,
+          top: pokemons[i].name!.length >= 10 ? 7 : 5,
+          child: Text(
+            pokemons[i].name!,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: pokemons[i].name!.length >= 10 ? 18 : 20,
+            ),
+          ),
+        ),
+        Positioned.fill(
+          right: 5,
+          top: 9,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Column(
+              children: pokemons[i]
+                  .type!
+                  .map(
+                    (item) => Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      margin: const EdgeInsets.only(top: 1),
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(50, 255, 255, 255),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
                         ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ],
+                      ),
+                      child: Text(
+                        item,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
         //Pokemon id and favorite button

@@ -11,8 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedIndex = 0;
-  PageController pageController = PageController();
+  int selectedIndex = 1;
+  PageController pageController = PageController(
+    initialPage: 1,
+    keepPage: true,
+  );
 
   //Change the page and animate
   void onTapped(int index) {
@@ -32,22 +35,26 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: pageController,
         children: const [
-          PokemonsPage(),
           FavoritesPage(),
+          PokemonsPage(),
           SettingsPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedIconTheme: const IconThemeData(size: 32),
+        selectedFontSize: 16,
+        currentIndex: selectedIndex,
+        onTap: onTapped,
         items: const [
-          BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-          ),
           BottomNavigationBarItem(
             label: "Favorites",
             icon: Icon(Icons.favorite_outline),
             activeIcon: Icon(Icons.favorite),
+          ),
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
             label: "Settings",
@@ -55,8 +62,6 @@ class _HomePageState extends State<HomePage> {
             activeIcon: Icon(Icons.settings),
           ),
         ],
-        currentIndex: selectedIndex,
-        onTap: onTapped,
       ),
     );
   }

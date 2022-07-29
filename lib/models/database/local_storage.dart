@@ -4,10 +4,11 @@ import 'package:pokedex/models/database/base_local_storage.dart';
 import 'package:pokedex/models/pokemon.dart';
 
 class LocalStorage extends BaseLocalStorage with ChangeNotifier {
-  String boxName = 'favorites';
+  String favoritesBox = 'favorites';
+
   @override
   Future<Box> openBox() async {
-    Box box = await Hive.openBox<Pokemon>(boxName);
+    Box box = await Hive.openBox<Pokemon>(favoritesBox);
     return box;
   }
 
