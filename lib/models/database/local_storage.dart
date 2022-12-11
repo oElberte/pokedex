@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:pokedex/models/database/base_local_storage.dart';
-import 'package:pokedex/models/pokemon.dart';
+import 'base_local_storage.dart';
+import '../pokemon.dart';
 
 class LocalStorage extends BaseLocalStorage with ChangeNotifier {
   String favoritesBox = 'favorites';

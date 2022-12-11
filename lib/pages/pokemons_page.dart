@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/components/pokemon_grid_item.dart';
-import 'package:pokedex/models/database/local_storage.dart';
-import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/pages/pokemon_detail_page.dart';
-import 'package:pokedex/utils/state_manager.dart';
+import '../components/pokemon_grid_item.dart';
+import '../models/database/local_storage.dart';
+import '../models/pokemon.dart';
+import 'pokemon_detail_page.dart';
+import '../utils/state_manager.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 typedef IntCallback = void Function(int id);
@@ -31,7 +31,7 @@ class _PokemonsPageState extends ConsumerState<PokemonsPage> {
       suggestedRowHeight: 120,
     );
 
-    Future<void> _navigateAndDisplaySelection(
+    Future<void> navigateAndDisplaySelection(
         BuildContext ctx, List<Pokemon> pokemons, int index) async {
       await Navigator.push(
         ctx,
@@ -81,7 +81,7 @@ class _PokemonsPageState extends ConsumerState<PokemonsPage> {
                   index: i,
                   child: InkWell(
                     onTap: () =>
-                        _navigateAndDisplaySelection(context, pokemons, i),
+                        navigateAndDisplaySelection(context, pokemons, i),
                     child: PokemonGridItem(pokemons, i, localStorage),
                   ),
                 );

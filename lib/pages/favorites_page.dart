@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/components/pokemon_grid_item.dart';
-import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/pages/pokemon_detail_page.dart';
-import 'package:pokedex/utils/state_manager.dart';
+import '../components/pokemon_grid_item.dart';
+import '../models/pokemon.dart';
+import 'pokemon_detail_page.dart';
+import '../utils/state_manager.dart';
 
 class FavoritesPage extends ConsumerWidget {
   const FavoritesPage({Key? key}) : super(key: key);

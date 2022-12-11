@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pokedex/models/pokemon.dart';
+import '../pokemon.dart';
 
 abstract class BaseLocalStorage {
   Future<Box> openBox();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pokedex/components/pokemon_details_widget.dart';
-import 'package:pokedex/models/pokemon.dart';
+import '../components/pokemon_details_widget.dart';
+import '../models/pokemon.dart';
 
 class PokemonDetailsPage extends StatefulWidget {
   const PokemonDetailsPage({

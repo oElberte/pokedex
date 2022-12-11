@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/pages/favorites_page.dart';
-import 'package:pokedex/pages/home_page.dart';
-import 'package:pokedex/pages/pokemons_page.dart';
-import 'package:pokedex/pages/settings_page.dart';
-import 'package:pokedex/utils/app_routes.dart';
-import 'package:pokedex/utils/app_theme.dart';
-import 'package:pokedex/utils/state_manager.dart';
+import 'models/pokemon.dart';
+import 'pages/home_page.dart';
+import 'utils/app_theme.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -35,6 +30,7 @@ class MyApp extends ConsumerWidget {
           );
 
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,

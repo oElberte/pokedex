@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/components/favorite_button_widget.dart';
-import 'package:pokedex/models/pokemon.dart';
+import 'favorite_button_widget.dart';
+import '../models/pokemon.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 typedef IntCallback = void Function(int id);

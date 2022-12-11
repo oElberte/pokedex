@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pokedex/models/pokemon.dart';
-import 'package:pokedex/utils/state_manager.dart';
+import '../models/pokemon.dart';
+import '../utils/state_manager.dart';
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({

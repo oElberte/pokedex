@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Align(
                     alignment: Alignment.topRight,
                     child: Switch.adaptive(
-                      value: darkMode,
+                      value: darkMode ?? false,
                       onChanged: (value) {
                         setState(
                           () {

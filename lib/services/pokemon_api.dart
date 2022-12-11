@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:pokedex/models/pokemon.dart';
+import '../models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
 final Uri url = Uri.parse(

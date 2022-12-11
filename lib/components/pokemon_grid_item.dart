@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pokedex/models/database/local_storage.dart';
-import 'package:pokedex/models/pokemon.dart';
 import 'package:simple_shadow/simple_shadow.dart';
+
+import '../models/database/local_storage.dart';
+import '../models/pokemon.dart';
 
 class PokemonGridItem extends StatefulWidget {
   const PokemonGridItem(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pages/favorites_page.dart';
-import 'package:pokedex/pages/pokemons_page.dart';
-import 'package:pokedex/pages/settings_page.dart';
+import 'favorites_page.dart';
+import 'pokemons_page.dart';
+import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
